@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Welcome to My E-commerce Site{% endblock %}
+
+{% block content %}
+    <h1>Our Products</h1>
+    <div class="product-list">
+        {% for product in products %}
+            <div class="product-item">
+                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" style="width:100px; height:100px;">
+                <h2>{{ product.name }}</h2>
+                <p>Price: ${{ "%.2f"|format(product.price) }}</p>
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">View Details</a>
+                <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="button">Add to Cart</a>
+            </div>
+        {% else %}
+            <p>No products available at the moment.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

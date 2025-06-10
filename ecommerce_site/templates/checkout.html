@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+    <h1>Checkout</h1>
+
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        {% if cart_items %}
+            <ul>
+                {% for item in cart_items %}
+                    <li>{{ item.name }} (x{{ item.quantity }}) - ${{ "%.2f"|format(item.price * item.quantity) }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Total: ${{ "%.2f"|format(total_price) }}</h3>
+        {% else %}
+            <p>Your cart is empty.</p> {# Should be redirected by route if cart is empty, but good fallback #}
+        {% endif %}
+    </div>
+
+    <form method="POST" action="{{ url_for('checkout') }}" class="checkout-form">
+        <h2>Shipping Information</h2>
+        <div>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div>
+            <label for="address">Shipping Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="button">Place Order (Test)</button>
+    </form>
+    <p><a href="{{ url_for('cart') }}">Back to Cart</a></p>
+{% endblock %}
